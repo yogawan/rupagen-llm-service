@@ -2,6 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { mongoConnect } from "@/lib/mongoConnect";
 import Note from "@/models/Notes";
 import { verifyAuth } from "@/middleware/verifyAuth";
+import { enableCors } from "@/middleware/enableCors";
 
 async function handler(
   req: NextApiRequest & { userId?: string },
@@ -44,4 +45,4 @@ async function handler(
   }
 }
 
-export default verifyAuth(handler);
+export default verifyAuth(enableCors(handler));

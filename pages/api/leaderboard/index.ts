@@ -1,13 +1,12 @@
 // @/pages/api/users/index.ts
 import type { NextApiRequest, NextApiResponse } from "next";
 import { mongoConnect } from "@/lib/mongoConnect";
+import { verifyAuth } from "@/middleware/verifyAuth";
+import { enableCors } from "@/middleware/enableCors";
 import User from "@/models/User";
 import Stats from "@/models/Stats";
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse,
-) {
+async function handler(req: NextApiRequest, res: NextApiResponse) {
   await mongoConnect();
 
   if (req.method !== "GET") {
@@ -15,11 +14,10 @@ export default async function handler(
   }
 
   try {
-    // Mengambil semua user beserta stats-nya, lalu urutkan berdasarkan xp descending
     const usersWithStats = await Stats.aggregate([
       {
         $lookup: {
-          from: "users", // nama collection User di MongoDB (harus lowercase & plural)
+          from: "users",
           localField: "userId",
           foreignField: "_id",
           as: "user",
@@ -49,3 +47,5 @@ export default async function handler(
     res.status(500).json({ success: false, message: error.message });
   }
 }
+
+export default verifyAuth(enableCors(handler));
