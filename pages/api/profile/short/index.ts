@@ -1,7 +1,8 @@
-// /pages/api/profile/index.ts
+// /pages/api/profile/basic.ts
 import type { NextApiRequest, NextApiResponse } from "next";
 import { mongoConnect } from "@/lib/mongoConnect";
 import User from "@/models/User";
+import Stats from "@/models/Stats";
 import { verifyAuth } from "@/middleware/verifyAuth";
 
 async function handler(
@@ -15,15 +16,17 @@ async function handler(
 
   try {
     const user = await User.findById(userId).select("-password");
+    const stats = await Stats.findOne({ userId });
 
-    if (!user) return res.status(404).json({ message: "User tidak ditemukan" });
+    if (!user || !stats)
+      return res.status(404).json({ message: "Data tidak ditemukan" });
 
     res.status(200).json({
-      message: "Berhasil ambil user",
-      data: user,
+      message: "Berhasil ambil profile",
+      data: { user, stats },
     });
   } catch (error: any) {
-    console.error("Profile User API Error:", error.message);
+    console.error("Profile API Error:", error.message);
     res.status(500).json({ message: "Terjadi kesalahan server" });
   }
 }

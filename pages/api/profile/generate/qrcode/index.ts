@@ -3,6 +3,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { mongoConnect } from "@/lib/mongoConnect";
 import User from "@/models/User";
 import { verifyAuth } from "@/middleware/verifyAuth";
+import QRCode from "qrcode";
 
 async function handler(
   req: NextApiRequest & { userId?: string },
@@ -15,12 +16,17 @@ async function handler(
 
   try {
     const user = await User.findById(userId).select("-password");
-
     if (!user) return res.status(404).json({ message: "User tidak ditemukan" });
+
+    const url = `https://yogawanadityapratama.com/${userId}`;
+    const qrcode = await QRCode.toDataURL(url);
 
     res.status(200).json({
       message: "Berhasil ambil user",
-      data: user,
+      data: {
+        ...user.toObject(),
+        qrcode,
+      },
     });
   } catch (error: any) {
     console.error("Profile User API Error:", error.message);

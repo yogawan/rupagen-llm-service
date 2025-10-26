@@ -7,6 +7,7 @@ export interface IStats extends Document {
   streakCount: number;
   point: number;
   xp: number;
+  liga: "Perak" | "Silver" | "Emas";
   createdAt: Date;
   updatedAt: Date;
 }
@@ -33,6 +34,11 @@ const StatsSchema = new Schema<IStats>(
     xp: {
       type: Number,
       default: 0,
+    },
+    liga: {
+      type: String,
+      enum: ["Perak", "Silver", "Emas"],
+      default: "Perak",
     },
   },
   {

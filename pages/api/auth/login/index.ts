@@ -1,12 +1,11 @@
+// @/pages/api/auth/login/index.ts
 import type { NextApiRequest, NextApiResponse } from "next";
 import jwt from "jsonwebtoken";
 import User from "@/models/User";
 import { mongoConnect } from "@/lib/mongoConnect";
+import { enableCors } from "@/middleware/enableCors";
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse,
-) {
+async function handler(req: NextApiRequest, res: NextApiResponse) {
   await mongoConnect();
 
   if (req.method !== "POST")
@@ -25,7 +24,10 @@ export default async function handler(
     if (!isMatch) return res.status(401).json({ message: "Password salah" });
 
     const token = jwt.sign(
-      { id: user._id, email: user.email },
+      {
+        userId: user._id,
+        email: user.email,
+      },
       process.env.JWT_SECRET as string,
       { expiresIn: "7d" },
     );
@@ -33,10 +35,16 @@ export default async function handler(
     res.status(200).json({
       message: "Login berhasil",
       token,
-      user: { id: user._id, nama: user.nama, email: user.email },
+      user: {
+        id: user._id,
+        nama: user.nama,
+        email: user.email,
+      },
     });
   } catch (error: any) {
     console.error("Login Error:", error);
     res.status(500).json({ message: "Terjadi kesalahan server" });
   }
 }
+
+export default enableCors(handler);

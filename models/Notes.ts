@@ -3,7 +3,7 @@ import mongoose, { Schema, Document, Model, Types } from "mongoose";
 
 export interface INote extends Document {
   userId: Types.ObjectId;
-  note: string;
+  catatan: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -15,7 +15,7 @@ const NoteSchema = new Schema<INote>(
       ref: "User",
       required: true,
     },
-    note: {
+    catatan: {
       type: String,
       required: true,
       trim: true,

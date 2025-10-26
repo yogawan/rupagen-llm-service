@@ -6,6 +6,7 @@ export interface IUser {
   nama: string;
   email: string;
   password: string;
+  personalization: boolean;
 }
 
 export interface IUserDocument extends IUser, Document {
@@ -23,6 +24,7 @@ const UserSchema: Schema<IUserDocument> = new mongoose.Schema(
       trim: true,
     },
     password: { type: String, required: true },
+    personalization: { type: Boolean, default: false },
   },
   {
     timestamps: true,
