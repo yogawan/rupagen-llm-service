@@ -1,16 +1,18 @@
+// @/pages/api/notes/index.ts
 import type { NextApiRequest, NextApiResponse } from "next";
 import { mongoConnect } from "@/lib/mongoConnect";
 import Note from "@/models/Notes";
-import { verifyAuth } from "@/middleware/verifyAuth";
+import { verifyAuthHybrid } from "@/middleware/verifyAuthHybrid";
 import { enableCors } from "@/middleware/enableCors";
 
 async function handler(
-  req: NextApiRequest & { userId?: string },
+  req: NextApiRequest & { userId?: string; authType?: string },
   res: NextApiResponse,
 ) {
   await mongoConnect();
 
   const userId = req.userId;
+  const authType = req.authType;
   if (!userId) return res.status(401).json({ message: "Unauthorized" });
 
   try {
@@ -22,16 +24,18 @@ async function handler(
         }
 
         const newNote = await Note.create({ userId, catatan });
-        return res
-          .status(201)
-          .json({ message: "Catatan berhasil dibuat", data: newNote });
+        return res.status(201).json({
+          message: `Catatan berhasil dibuat (${authType === "clerk" ? "via Clerk" : "via JWT"})`,
+          data: newNote,
+        });
       }
 
       case "GET": {
         const notes = await Note.find({ userId }).sort({ createdAt: -1 });
-        return res
-          .status(200)
-          .json({ message: "Berhasil ambil semua catatan", data: notes });
+        return res.status(200).json({
+          message: `Berhasil ambil semua catatan (${authType === "clerk" ? "via Clerk" : "via JWT"})`,
+          data: notes,
+        });
       }
 
       default:
@@ -45,4 +49,4 @@ async function handler(
   }
 }
 
-export default verifyAuth(enableCors(handler));
+export default verifyAuthHybrid(enableCors(handler));
