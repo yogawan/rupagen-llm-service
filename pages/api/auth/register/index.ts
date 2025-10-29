@@ -6,6 +6,33 @@ import Stats from "@/models/Stats";
 import Personality from "@/models/Personality";
 import { mongoConnect } from "@/lib/mongoConnect";
 import { enableCors } from "@/middleware/enableCors";
+import { v2 as cloudinary } from "cloudinary";
+import formidable from "formidable";
+import fs from "fs";
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
+
+const uploadToCloudinary = async (filePath: string): Promise<string> => {
+  try {
+    const result = await cloudinary.uploader.upload(filePath, {
+      folder: "mintrix/users",
+      resource_type: "image",
+    });
+    return result.secure_url;
+  } catch (error) {
+    throw new Error("Failed to upload image to Cloudinary");
+  }
+};
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   await mongoConnect();
@@ -13,32 +40,55 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== "POST")
     return res.status(405).json({ message: "Method Not Allowed" });
 
-  const { nama, email, password } = req.body;
-
-  if (!nama || !email || !password)
-    return res.status(400).json({ message: "Semua field wajib diisi" });
-
   try {
-    // 🔹 1. Cek apakah email sudah terdaftar
+    const form = formidable({
+      maxFiles: 1,
+      maxFileSize: 5 * 1024 * 1024,
+      filter: ({ mimetype }) => {
+        return mimetype && mimetype.includes("image") ? true : false;
+      },
+    });
+
+    const [fields, files] = await form.parse(req);
+
+    const nama = Array.isArray(fields.nama) ? fields.nama[0] : fields.nama;
+    const email = Array.isArray(fields.email) ? fields.email[0] : fields.email;
+    const password = Array.isArray(fields.password)
+      ? fields.password[0]
+      : fields.password;
+
+    if (!nama || !email || !password)
+      return res.status(400).json({ message: "Semua field wajib diisi" });
+
     const existingUser = await User.findOne({ email });
     if (existingUser)
       return res.status(400).json({ message: "Email sudah terdaftar" });
 
-    // 🔹 2. Simpan user baru
-    const newUser = new User({ nama, email, password });
+    let fotoUrl = null;
+    if (files.foto && files.foto[0]) {
+      const file = files.foto[0];
+      fotoUrl = await uploadToCloudinary(file.filepath);
+
+      fs.unlinkSync(file.filepath);
+    }
+
+    const newUser = new User({
+      nama,
+      email,
+      password,
+      foto: fotoUrl,
+    });
     await newUser.save();
 
-    // 🔹 3. Buat stats default untuk user baru
     await Stats.create({
       userId: newUser._id,
       streakActive: false,
       streakCount: 0,
       point: 0,
       xp: 0,
-      liga: "Perak", // default liga
+      liga: "Perak",
     });
 
-    // 🔹 4. Buat personality default untuk user baru
     await Personality.create({
       userId: newUser._id,
       kreatifitas: 0,
@@ -49,14 +99,12 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       hobiDanMinat: "",
     });
 
-    // 🔹 5. Buat token JWT
     const token = jwt.sign(
       { userId: newUser._id, email: newUser.email },
       process.env.JWT_SECRET as string,
       { expiresIn: "7d" },
     );
 
-    // 🔹 6. Kirim response
     res.status(201).json({
       message: "Registrasi berhasil",
       token,
@@ -64,6 +112,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         id: newUser._id,
         nama: newUser.nama,
         email: newUser.email,
+        foto: newUser.foto,
       },
     });
   } catch (error: any) {

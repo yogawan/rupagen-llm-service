@@ -1,4 +1,4 @@
-// /pages/api/profile/index.ts
+// @/pages/api/profile/generate/qrcode/index.ts
 import type { NextApiRequest, NextApiResponse } from "next";
 import { mongoConnect } from "@/lib/mongoConnect";
 import User from "@/models/User";
@@ -19,7 +19,7 @@ async function handler(
     const user = await User.findById(userId).select("-password");
     if (!user) return res.status(404).json({ message: "User tidak ditemukan" });
 
-    const url = `http://localhost:3000/stats/${userId}`;
+    const url = `https://majarosoft.yogaone.me/stats/${userId}`;
     const qrcode = await QRCode.toDataURL(url);
 
     res.status(200).json({

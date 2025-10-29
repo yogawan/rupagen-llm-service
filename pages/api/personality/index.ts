@@ -1,3 +1,4 @@
+// @/pages/api/personality/index.ts
 import type { NextApiRequest, NextApiResponse } from "next";
 import { mongoConnect } from "@/lib/mongoConnect";
 import Personality from "@/models/Personality";
@@ -44,7 +45,6 @@ async function handler(
             .status(404)
             .json({ message: "Data personality tidak ditemukan" });
 
-        // update hanya field yang ada di body
         if (kreatifitas !== undefined) personality.kreatifitas = kreatifitas;
         if (keberanian !== undefined) personality.keberanian = keberanian;
         if (empati !== undefined) personality.empati = empati;

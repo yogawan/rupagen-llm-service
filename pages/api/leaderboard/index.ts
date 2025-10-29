@@ -1,4 +1,4 @@
-// @/pages/api/users/index.ts
+// @/pages/api/leaderboard/index.ts
 import type { NextApiRequest, NextApiResponse } from "next";
 import { mongoConnect } from "@/lib/mongoConnect";
 import { verifyAuth } from "@/middleware/verifyAuth";
@@ -28,20 +28,20 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       {
         $project: {
           _id: 0,
-          streakActive: 1,
-          streakCount: 1,
-          point: 1,
           xp: 1,
-          liga: 1,
-          user: {
-            nama: 1,
-            email: 1,
-          },
+          "user.nama": 1,
+          "user.foto": 1,
         },
       },
     ]);
 
-    res.status(200).json({ success: true, data: usersWithStats });
+    const formatted = usersWithStats.map((item) => ({
+      nama: item.user.nama,
+      foto: item.user.foto,
+      xp: item.xp,
+    }));
+
+    res.status(200).json({ success: true, data: formatted });
   } catch (error: any) {
     console.error(error);
     res.status(500).json({ success: false, message: error.message });

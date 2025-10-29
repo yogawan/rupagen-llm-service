@@ -1,3 +1,4 @@
+// @/pages/api/personalization/[id]/index.ts
 import type { NextApiRequest, NextApiResponse } from "next";
 import { mongoConnect } from "@/lib/mongoConnect";
 import Personalization from "@/models/Personalization";

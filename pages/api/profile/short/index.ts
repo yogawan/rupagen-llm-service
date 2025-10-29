@@ -1,4 +1,4 @@
-// /pages/api/profile/basic.ts
+// @/pages/api/profile/short/index.ts
 import type { NextApiRequest, NextApiResponse } from "next";
 import { mongoConnect } from "@/lib/mongoConnect";
 import User from "@/models/User";

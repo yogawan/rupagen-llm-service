@@ -1,3 +1,4 @@
+// @/pages/api/index.ts
 import type { NextApiRequest, NextApiResponse } from "next";
 import { enableCors } from "@/middleware/enableCors";
 

@@ -1,3 +1,4 @@
+// @/pages/api/notes/[id]/index.ts
 import type { NextApiRequest, NextApiResponse } from "next";
 import { mongoConnect } from "@/lib/mongoConnect";
 import Note from "@/models/Notes";

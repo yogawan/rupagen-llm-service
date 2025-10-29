@@ -2,7 +2,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { mongoConnect } from "@/lib/mongoConnect";
 import Note from "@/models/Notes";
-import { verifyAuthHybrid } from "@/middleware/verifyAuthHybrid";
+import { verifyAuth } from "@/middleware/verifyAuth";
 import { enableCors } from "@/middleware/enableCors";
 
 async function handler(
@@ -49,4 +49,4 @@ async function handler(
   }
 }
 
-export default verifyAuthHybrid(enableCors(handler));
+export default verifyAuth(enableCors(handler));

@@ -1,3 +1,4 @@
+// @/pages/api/stats/index.ts
 import type { NextApiRequest, NextApiResponse } from "next";
 import { verifyAuth } from "@/middleware/verifyAuth";
 import { enableCors } from "@/middleware/enableCors";
