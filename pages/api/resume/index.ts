@@ -24,6 +24,8 @@ async function generateResumePDF(resumeData: any) {
   const black = rgb(0, 0, 0);
   const white = rgb(1, 1, 1);
   const darkGray = rgb(0.3, 0.3, 0.3);
+  const mediumGray = rgb(0.5, 0.5, 0.5);
+  const lightGray = rgb(0.7, 0.7, 0.7);
   const lightBorder = rgb(0.85, 0.85, 0.85);
 
   const margin = 50;
@@ -57,7 +59,7 @@ async function generateResumePDF(resumeData: any) {
     y: y,
     size: 12,
     font: regularFont,
-    color: black,
+    color: darkGray,
   });
   y -= 30;
 
@@ -83,7 +85,7 @@ async function generateResumePDF(resumeData: any) {
     y: y,
     size: 10,
     font: regularFont,
-    color: black,
+    color: darkGray,
   });
   y -= 15;
 
@@ -92,7 +94,7 @@ async function generateResumePDF(resumeData: any) {
     y: y,
     size: 10,
     font: regularFont,
-    color: black,
+    color: darkGray,
   });
   y -= 15;
 
@@ -101,7 +103,7 @@ async function generateResumePDF(resumeData: any) {
     y: y,
     size: 10,
     font: regularFont,
-    color: black,
+    color: darkGray,
   });
   y -= 30;
 
@@ -137,7 +139,7 @@ async function generateResumePDF(resumeData: any) {
           y: y,
           size: 10,
           font: regularFont,
-          color: black,
+          color: darkGray,
         });
         y -= 15;
         line = word;
@@ -151,7 +153,7 @@ async function generateResumePDF(resumeData: any) {
           y: y,
           size: 10,
           font: regularFont,
-          color: black,
+          color: darkGray,
         });
         y -= 15;
       }
@@ -203,7 +205,7 @@ async function generateResumePDF(resumeData: any) {
         y: y,
         size: 10,
         font: regularFont,
-        color: black,
+        color: darkGray,
       });
       y -= 15;
 
@@ -223,7 +225,7 @@ async function generateResumePDF(resumeData: any) {
         y: y,
         size: 10,
         font: regularFont,
-        color: darkGray,
+        color: mediumGray,
       });
       y -= 18;
 
@@ -242,7 +244,7 @@ async function generateResumePDF(resumeData: any) {
               y: y,
               size: 10,
               font: regularFont,
-              color: black,
+              color: darkGray,
             });
             y -= 15;
             descLine = word;
@@ -256,7 +258,7 @@ async function generateResumePDF(resumeData: any) {
               y: y,
               size: 10,
               font: regularFont,
-              color: black,
+              color: darkGray,
             });
             y -= 15;
           }
@@ -311,7 +313,7 @@ async function generateResumePDF(resumeData: any) {
         y: y,
         size: 10,
         font: regularFont,
-        color: black,
+        color: darkGray,
       });
       y -= 15;
 
@@ -331,7 +333,7 @@ async function generateResumePDF(resumeData: any) {
         y: y,
         size: 10,
         font: regularFont,
-        color: darkGray,
+        color: mediumGray,
       });
       y -= 25;
     });
@@ -375,7 +377,7 @@ async function generateResumePDF(resumeData: any) {
         y: y,
         size: 10,
         font: regularFont,
-        color: black,
+        color: darkGray,
       });
       y -= 15;
     });
@@ -419,7 +421,7 @@ async function generateResumePDF(resumeData: any) {
         y: y,
         size: 10,
         font: regularFont,
-        color: black,
+        color: darkGray,
       });
       y -= 15;
     });
@@ -461,7 +463,7 @@ async function generateResumePDF(resumeData: any) {
         y: y,
         size: 10,
         font: regularFont,
-        color: black,
+        color: darkGray,
       });
       y -= 15;
 
@@ -471,7 +473,7 @@ async function generateResumePDF(resumeData: any) {
           y: y,
           size: 10,
           font: regularFont,
-          color: darkGray,
+          color: mediumGray,
         });
         y -= 15;
       }
@@ -515,7 +517,7 @@ async function generateResumePDF(resumeData: any) {
         y: y,
         size: 10,
         font: regularFont,
-        color: black,
+        color: darkGray,
       });
       y -= 15;
     });
