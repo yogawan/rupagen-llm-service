@@ -24,6 +24,7 @@ async function generateResumePDF(resumeData: any) {
   const black = rgb(0, 0, 0);
   const white = rgb(1, 1, 1);
   const darkGray = rgb(0.3, 0.3, 0.3);
+  const lightBorder = rgb(0.85, 0.85, 0.85);
 
   const margin = 50;
   let y = height - margin;
@@ -72,7 +73,7 @@ async function generateResumePDF(resumeData: any) {
     start: { x: margin, y: y - 5 },
     end: { x: width - margin, y: y - 5 },
     thickness: 1,
-    color: black,
+    color: lightBorder,
   });
   
   y -= 20;
@@ -117,7 +118,7 @@ async function generateResumePDF(resumeData: any) {
       start: { x: margin, y: y - 5 },
       end: { x: width - margin, y: y - 5 },
       thickness: 1,
-      color: black,
+      color: lightBorder,
     });
     
     y -= 20;
@@ -173,7 +174,7 @@ async function generateResumePDF(resumeData: any) {
       start: { x: margin, y: y - 5 },
       end: { x: width - margin, y: y - 5 },
       thickness: 1,
-      color: black,
+      color: lightBorder,
     });
     
     y -= 25;
@@ -281,7 +282,7 @@ async function generateResumePDF(resumeData: any) {
       start: { x: margin, y: y - 5 },
       end: { x: width - margin, y: y - 5 },
       thickness: 1,
-      color: black,
+      color: lightBorder,
     });
     
     y -= 25;
@@ -352,7 +353,7 @@ async function generateResumePDF(resumeData: any) {
       start: { x: margin, y: y - 5 },
       end: { x: width - margin, y: y - 5 },
       thickness: 1,
-      color: black,
+      color: lightBorder,
     });
     
     y -= 20;
@@ -396,7 +397,7 @@ async function generateResumePDF(resumeData: any) {
       start: { x: margin, y: y - 5 },
       end: { x: width - margin, y: y - 5 },
       thickness: 1,
-      color: black,
+      color: lightBorder,
     });
     
     y -= 20;
@@ -440,7 +441,7 @@ async function generateResumePDF(resumeData: any) {
       start: { x: margin, y: y - 5 },
       end: { x: width - margin, y: y - 5 },
       thickness: 1,
-      color: black,
+      color: lightBorder,
     });
     
     y -= 20;
@@ -494,7 +495,7 @@ async function generateResumePDF(resumeData: any) {
       start: { x: margin, y: y - 5 },
       end: { x: width - margin, y: y - 5 },
       thickness: 1,
-      color: black,
+      color: lightBorder,
     });
     
     y -= 20;
