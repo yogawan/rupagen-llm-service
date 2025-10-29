@@ -67,6 +67,14 @@ async function generateResumePDF(resumeData: any) {
     font: boldFont,
     color: black,
   });
+  
+  page.drawLine({
+    start: { x: margin, y: y - 5 },
+    end: { x: width - margin, y: y - 5 },
+    thickness: 1,
+    color: black,
+  });
+  
   y -= 20;
 
   page.drawText(`Email: ${kontak.email}`, {
@@ -104,6 +112,14 @@ async function generateResumePDF(resumeData: any) {
       font: boldFont,
       color: black,
     });
+    
+    page.drawLine({
+      start: { x: margin, y: y - 5 },
+      end: { x: width - margin, y: y - 5 },
+      thickness: 1,
+      color: black,
+    });
+    
     y -= 20;
 
     const words = resumeData.ringkasan.split(" ");
@@ -152,13 +168,28 @@ async function generateResumePDF(resumeData: any) {
       font: boldFont,
       color: black,
     });
+    
+    page.drawLine({
+      start: { x: margin, y: y - 5 },
+      end: { x: width - margin, y: y - 5 },
+      thickness: 1,
+      color: black,
+    });
+    
     y -= 25;
 
     resumeData.pengalaman.forEach((exp: any) => {
       checkNewPage(80);
 
+      page.drawCircle({
+        x: margin + 5,
+        y: y - 5,
+        size: 2,
+        color: black,
+      });
+
       page.drawText(exp.jabatan, {
-        x: margin,
+        x: margin + 15,
         y: y,
         size: 11,
         font: boldFont,
@@ -167,7 +198,7 @@ async function generateResumePDF(resumeData: any) {
       y -= 18;
 
       page.drawText(exp.perusahaan, {
-        x: margin,
+        x: margin + 15,
         y: y,
         size: 10,
         font: regularFont,
@@ -187,7 +218,7 @@ async function generateResumePDF(resumeData: any) {
         : "Sekarang";
 
       page.drawText(`${startDate} - ${endDate} | ${exp.lokasi}`, {
-        x: margin,
+        x: margin + 15,
         y: y,
         size: 10,
         font: regularFont,
@@ -198,7 +229,7 @@ async function generateResumePDF(resumeData: any) {
       if (exp.deskripsi) {
         const descWords = exp.deskripsi.split(" ");
         let descLine = "";
-        const maxWidth = width - margin * 2;
+        const maxWidth = width - margin * 2 - 15;
 
         descWords.forEach((word: string, idx: number) => {
           const testLine = descLine + (descLine ? " " : "") + word;
@@ -206,7 +237,7 @@ async function generateResumePDF(resumeData: any) {
 
           if (textWidth > maxWidth && descLine) {
             page.drawText(descLine, {
-              x: margin,
+              x: margin + 15,
               y: y,
               size: 10,
               font: regularFont,
@@ -220,7 +251,7 @@ async function generateResumePDF(resumeData: any) {
 
           if (idx === descWords.length - 1 && descLine) {
             page.drawText(descLine, {
-              x: margin,
+              x: margin + 15,
               y: y,
               size: 10,
               font: regularFont,
@@ -245,13 +276,28 @@ async function generateResumePDF(resumeData: any) {
       font: boldFont,
       color: black,
     });
+    
+    page.drawLine({
+      start: { x: margin, y: y - 5 },
+      end: { x: width - margin, y: y - 5 },
+      thickness: 1,
+      color: black,
+    });
+    
     y -= 25;
 
     resumeData.pendidikan.forEach((edu: any) => {
       checkNewPage(70);
 
+      page.drawCircle({
+        x: margin + 5,
+        y: y - 5,
+        size: 2,
+        color: black,
+      });
+
       page.drawText(edu.penjurusan, {
-        x: margin,
+        x: margin + 15,
         y: y,
         size: 11,
         font: boldFont,
@@ -260,7 +306,7 @@ async function generateResumePDF(resumeData: any) {
       y -= 18;
 
       page.drawText(edu.namaSekolah, {
-        x: margin,
+        x: margin + 15,
         y: y,
         size: 10,
         font: regularFont,
@@ -280,7 +326,7 @@ async function generateResumePDF(resumeData: any) {
         : "Sekarang";
 
       page.drawText(`${startDate} - ${endDate} | ${edu.lokasi}`, {
-        x: margin,
+        x: margin + 15,
         y: y,
         size: 10,
         font: regularFont,
@@ -301,15 +347,30 @@ async function generateResumePDF(resumeData: any) {
       font: boldFont,
       color: black,
     });
+    
+    page.drawLine({
+      start: { x: margin, y: y - 5 },
+      end: { x: width - margin, y: y - 5 },
+      thickness: 1,
+      color: black,
+    });
+    
     y -= 20;
 
     resumeData.keterampilan.forEach((skill: any) => {
       checkNewPage(20);
 
+      page.drawCircle({
+        x: margin + 5,
+        y: y - 3,
+        size: 1.5,
+        color: black,
+      });
+
       const levelText = ["Dasar", "Cukup", "Baik", "Mahir", "Ahli"][skill.level - 1];
 
       page.drawText(`${skill.namaKeterampilan} - ${levelText}`, {
-        x: margin,
+        x: margin + 15,
         y: y,
         size: 10,
         font: regularFont,
@@ -330,15 +391,30 @@ async function generateResumePDF(resumeData: any) {
       font: boldFont,
       color: black,
     });
+    
+    page.drawLine({
+      start: { x: margin, y: y - 5 },
+      end: { x: width - margin, y: y - 5 },
+      thickness: 1,
+      color: black,
+    });
+    
     y -= 20;
 
     resumeData.bahasa.forEach((lang: any) => {
       checkNewPage(20);
 
+      page.drawCircle({
+        x: margin + 5,
+        y: y - 3,
+        size: 1.5,
+        color: black,
+      });
+
       const levelText = ["Dasar", "Cukup", "Baik", "Mahir", "Native"][lang.level - 1];
 
       page.drawText(`${lang.namaBahasa} - ${levelText}`, {
-        x: margin,
+        x: margin + 15,
         y: y,
         size: 10,
         font: regularFont,
@@ -359,13 +435,28 @@ async function generateResumePDF(resumeData: any) {
       font: boldFont,
       color: black,
     });
+    
+    page.drawLine({
+      start: { x: margin, y: y - 5 },
+      end: { x: width - margin, y: y - 5 },
+      thickness: 1,
+      color: black,
+    });
+    
     y -= 20;
 
     resumeData.sertifikasiDanLisensi.forEach((cert: any) => {
       checkNewPage(40);
 
+      page.drawCircle({
+        x: margin + 5,
+        y: y - 3,
+        size: 1.5,
+        color: black,
+      });
+
       page.drawText(cert.namaSertifikasi, {
-        x: margin,
+        x: margin + 15,
         y: y,
         size: 10,
         font: regularFont,
@@ -375,7 +466,7 @@ async function generateResumePDF(resumeData: any) {
 
       if (cert.kredensialSertifikasi) {
         page.drawText(`Kredensial: ${cert.kredensialSertifikasi}`, {
-          x: margin,
+          x: margin + 15,
           y: y,
           size: 10,
           font: regularFont,
@@ -398,13 +489,28 @@ async function generateResumePDF(resumeData: any) {
       font: boldFont,
       color: black,
     });
+    
+    page.drawLine({
+      start: { x: margin, y: y - 5 },
+      end: { x: width - margin, y: y - 5 },
+      thickness: 1,
+      color: black,
+    });
+    
     y -= 20;
 
     resumeData.situsWebDanMediaSosial.forEach((social: any) => {
       checkNewPage(30);
 
+      page.drawCircle({
+        x: margin + 5,
+        y: y - 3,
+        size: 1.5,
+        color: black,
+      });
+
       page.drawText(`${social.namaMediaSosial}: ${social.linkMediaSosial}`, {
-        x: margin,
+        x: margin + 15,
         y: y,
         size: 10,
         font: regularFont,
