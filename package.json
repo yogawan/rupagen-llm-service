@@ -10,6 +10,7 @@
   "dependencies": {
     "@clerk/backend": "^2.19.0",
     "@clerk/nextjs": "^6.34.0",
+    "axios": "^1.13.2",
     "bcryptjs": "^3.0.2",
     "cloudinary": "^2.8.0",
     "cors": "^2.8.5",

@@ -31,11 +31,11 @@ export interface IResume extends Document {
   }[];
   keterampilan: {
     namaKeterampilan: string;
-    level: number; // 1-5
+    level: number;
   }[];
   bahasa: {
     namaBahasa: string;
-    level: number; // 1-5
+    level: number;
   }[];
   sertifikasiDanLisensi: {
     namaSertifikasi: string;

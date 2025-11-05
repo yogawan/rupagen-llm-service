@@ -21,7 +21,7 @@ const StatsSchema = new Schema<IStats>(
     },
     streakActive: {
       type: Boolean,
-      default: false,
+      default: true,
     },
     streakCount: {
       type: Number,
@@ -45,6 +45,27 @@ const StatsSchema = new Schema<IStats>(
     timestamps: true,
   },
 );
+
+StatsSchema.pre("save", function (next) {
+  const stats = this as IStats;
+
+  // kalau pertama kali create, skip
+  if (!stats.updatedAt) return next();
+
+  const lastUpdate = new Date(stats.updatedAt);
+  const now = new Date();
+
+  const diffTime = now.getTime() - lastUpdate.getTime();
+  const diffDays = diffTime / (1000 * 60 * 60 * 24);
+
+  // lebih dari atau sama dengan 1 hari tanpa update
+  if (diffDays >= 1) {
+    stats.streakActive = false;
+    stats.streakCount = 0;
+  }
+
+  next();
+});
 
 const Stats: Model<IStats> =
   mongoose.models.Stats || mongoose.model<IStats>("Stats", StatsSchema);

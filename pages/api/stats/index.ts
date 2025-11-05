@@ -39,13 +39,25 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           "liga",
         ];
         const updateData: Record<string, any> = {};
+        const incrementData: Record<string, number> = {};
+        let streakIncreased = false;
 
         for (const field of allowedFields) {
           if (req.body[field] !== undefined) {
-            updateData[field] = req.body[field];
+            // auto increment fields
+            if (["xp", "point", "streakCount"].includes(field)) {
+              incrementData[field] = Number(req.body[field]);
+
+              if (field === "streakCount" && Number(req.body[field]) > 0) {
+                streakIncreased = true;
+              }
+            } else {
+              updateData[field] = req.body[field];
+            }
           }
         }
 
+        // Validasi liga
         if (updateData.liga) {
           const validLiga = ["Perak", "Silver", "Emas"];
           if (!validLiga.includes(updateData.liga)) {
@@ -53,7 +65,16 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           }
         }
 
-        if (Object.keys(updateData).length === 0) {
+        // Jika streakCount bertambah → set streakActive = true
+        if (streakIncreased) {
+          updateData.streakActive = true;
+        }
+
+        // Tidak ada field dikirim
+        if (
+          !Object.keys(updateData).length &&
+          !Object.keys(incrementData).length
+        ) {
           return res
             .status(400)
             .json({ message: "Tidak ada field yang dikirim" });
@@ -61,7 +82,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
         const updatedStats = await Stats.findOneAndUpdate(
           { userId },
-          { $set: updateData },
+          {
+            ...(Object.keys(updateData).length && { $set: updateData }),
+            ...(Object.keys(incrementData).length && { $inc: incrementData }),
+          },
           { new: true, runValidators: true },
         );
 
