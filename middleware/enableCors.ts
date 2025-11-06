@@ -1,4 +1,4 @@
-// @/middleware/cors.ts
+// @/middleware/enableCors.ts
 import Cors from "cors";
 import type { NextApiRequest, NextApiResponse } from "next";
 

@@ -1,6 +1,8 @@
+// @/pages/parent/[id]/index.tsx
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import Splash from "@/components/Splash";
 
 const ParentPage = () => {
   const { id } = useRouter().query;
@@ -25,7 +27,7 @@ const ParentPage = () => {
     fetchData();
   }, [id]);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <Splash />;
   if (!data) return <p>Data not found</p>;
 
   const { user, stats, personality } = data;

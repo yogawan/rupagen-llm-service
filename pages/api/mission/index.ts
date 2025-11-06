@@ -1,3 +1,4 @@
+// @/pages/api/mission/index.ts
 import type { NextApiRequest, NextApiResponse } from "next";
 import { mongoConnect } from "@/lib/mongoConnect";
 import Mission from "@/models/Mission";
@@ -12,7 +13,6 @@ async function handler(
 
   const userId = req.userId;
 
-  // ✅ POST - Create Mission User (jika belum ada)
   if (req.method === "POST") {
     let mission = await Mission.findOne({ userId });
 
@@ -31,11 +31,9 @@ async function handler(
     });
   }
 
-  // 📍 GET - Ambil Mission User
   if (req.method === "GET") {
     let mission = await Mission.findOne({ userId });
 
-    // Jika tidak ada, auto create
     if (!mission) {
       mission = await Mission.create({ userId });
     }
@@ -46,7 +44,6 @@ async function handler(
     });
   }
 
-  // ✏️ PATCH - Update boolean mission
   if (req.method === "PATCH") {
     const allowedFields = [
       "ajakNgobrolDino",

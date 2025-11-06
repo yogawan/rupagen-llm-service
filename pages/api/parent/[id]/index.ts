@@ -1,4 +1,4 @@
-// @/pages/api/parent/[id_user].ts
+// @/pages/api/parent/[id].ts
 import type { NextApiRequest, NextApiResponse } from "next";
 import { mongoConnect } from "@/lib/mongoConnect";
 import User from "@/models/User";

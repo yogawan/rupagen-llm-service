@@ -19,7 +19,7 @@ async function handler(
     const user = await User.findById(userId).select("-password");
     if (!user) return res.status(404).json({ message: "User tidak ditemukan" });
 
-    const url = `https://majarosoft.yogaone.me/stats/${userId}`;
+    const url = `https://mintrix-api-service.vercel.app/stats/${userId}`;
     const qrcode = await QRCode.toDataURL(url);
 
     res.status(200).json({
