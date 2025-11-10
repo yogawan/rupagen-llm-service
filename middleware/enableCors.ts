@@ -1,35 +1,30 @@
 // @/middleware/enableCors.ts
+import { NextApiRequest, NextApiResponse } from "next";
 import Cors from "cors";
-import type { NextApiRequest, NextApiResponse } from "next";
 
 const cors = Cors({
   origin: "*",
-  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH","OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization", "Accept"],
 });
 
-function runMiddleware(
-  req: NextApiRequest,
-  res: NextApiResponse,
-  fn: Function,
-) {
+function runMiddleware(req: NextApiRequest, res: NextApiResponse, fn: Function) {
   return new Promise((resolve, reject) => {
-    fn(req, res, (result: unknown) => {
-      if (result instanceof Error) return reject(result);
+    fn(req, res, (result: any) => {
+      if (result instanceof Error) {
+        return reject(result);
+      }
       return resolve(result);
     });
   });
 }
 
-export function enableCors(
-  handler: (req: NextApiRequest, res: NextApiResponse) => Promise<void> | void,
-) {
-  return async (req: NextApiRequest, res: NextApiResponse) => {
+export function enableCors(handler: (req: NextApiRequest, res: NextApiResponse) => any) {
+  return async function (req: NextApiRequest, res: NextApiResponse) {
+    // jalankan CORS
     await runMiddleware(req, res, cors);
 
-    if (req.method === "OPTIONS") {
-      return res.status(200).end();
-    }
-
+    // lanjut ke handler asli
     return handler(req, res);
   };
 }
