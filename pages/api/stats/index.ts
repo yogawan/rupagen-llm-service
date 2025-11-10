@@ -108,4 +108,4 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 };
 
-export default verifyAuth(enableCors(handler));
+export default enableCors(verifyAuth(handler));

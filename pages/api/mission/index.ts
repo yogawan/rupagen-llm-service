@@ -74,4 +74,4 @@ async function handler(
   return res.status(405).json({ message: "Method not allowed" });
 }
 
-export default verifyAuth(enableCors(handler));
+export default enableCors(verifyAuth(handler));

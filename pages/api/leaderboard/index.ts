@@ -48,4 +48,4 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   }
 }
 
-export default verifyAuth(enableCors(handler));
+export default enableCors(verifyAuth(handler));

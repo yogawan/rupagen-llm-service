@@ -23,7 +23,7 @@ async function handler(
   }
 }
 
-export default verifyAuth(enableCors(handler));
+export default enableCors(verifyAuth(handler));
 
 const defaultProgressData = [
   {
