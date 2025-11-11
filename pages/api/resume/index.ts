@@ -527,6 +527,26 @@ async function generateResumePDF(resumeData: any) {
   return pdfBytes;
 }
 
+async function updateUserStats(token: string) {
+  try {
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://mintrix.yogawanadityapratama.com';
+    const response = await fetch(`${baseUrl}/api/stats`, {
+      method: 'PATCH',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ xp: 20 }),
+    });
+
+    if (!response.ok) {
+      console.error('Failed to update user stats:', await response.text());
+    }
+  } catch (error) {
+    console.error('Error updating user stats:', error);
+  }
+}
+
 async function handler(
   req: NextApiRequest & { userId?: string },
   res: NextApiResponse,
@@ -537,6 +557,25 @@ async function handler(
   switch (req.method) {
     case "POST":
       try {
+        // Check if user has created a resume in the last 7 days
+        const oneWeekAgo = new Date();
+        oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+
+        const recentResume = await Resume.findOne({
+          userId,
+          createdAt: { $gte: oneWeekAgo },
+        });
+
+        if (recentResume) {
+          const nextAllowedDate = new Date(recentResume.createdAt);
+          nextAllowedDate.setDate(nextAllowedDate.getDate() + 7);
+          
+          return res.status(429).json({
+            message: "Anda hanya dapat membuat 1 resume per minggu",
+            nextAllowedDate: nextAllowedDate.toISOString(),
+          });
+        }
+
         const newResume = await Resume.create({
           userId,
           ...req.body,
@@ -563,6 +602,12 @@ async function handler(
 
         newResume.resumeLink = resumeLink;
         await newResume.save();
+
+        // Update user stats with XP
+        const token = req.headers.authorization?.replace('Bearer ', '');
+        if (token) {
+          await updateUserStats(token);
+        }
 
         return res.status(201).json({
           message: "Resume berhasil dibuat dan PDF disimpan",
