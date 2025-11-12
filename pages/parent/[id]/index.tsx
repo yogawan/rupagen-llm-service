@@ -1,3 +1,4 @@
+// @/pages/parent/[id]/index.tsx
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -32,11 +33,11 @@ const ParentPage = () => {
 
   const RadarChart = ({ data }: { data: any }) => {
     const categories = [
-      { key: 'keberanian', label: 'Keberanian', angle: 0 },
-      { key: 'empati', label: 'Empati', angle: 72 },
-      { key: 'tanggungJawab', label: 'Tanggung Jawab', angle: 144 },
-      { key: 'kerjaSama', label: 'Kerja Sama', angle: 216 },
-      { key: 'kreatifitas', label: 'Kreatifitas', angle: 288 }
+      { key: "keberanian", label: "Keberanian", angle: 0 },
+      { key: "empati", label: "Empati", angle: 72 },
+      { key: "tanggungJawab", label: "Tanggung Jawab", angle: 144 },
+      { key: "kerjaSama", label: "Kerja Sama", angle: 216 },
+      { key: "kreatifitas", label: "Kreatifitas", angle: 288 },
     ];
 
     const center = 100;
@@ -48,12 +49,17 @@ const ParentPage = () => {
       const radian = (angle - 90) * (Math.PI / 180);
       return {
         x: center + radius * Math.cos(radian),
-        y: center + radius * Math.sin(radian)
+        y: center + radius * Math.sin(radian),
       };
     };
 
-    const dataPoints = categories.map(cat => getPoint(data[cat.key] || 0, cat.angle));
-    const pathData = dataPoints.map((p, i) => `${i === 0 ? 'M' : 'L'} ${p.x},${p.y}`).join(' ') + ' Z';
+    const dataPoints = categories.map((cat) =>
+      getPoint(data[cat.key] || 0, cat.angle),
+    );
+    const pathData =
+      dataPoints
+        .map((p, i) => `${i === 0 ? "M" : "L"} ${p.x},${p.y}`)
+        .join(" ") + " Z";
 
     return (
       <div className="flex justify-center my-6">
@@ -98,13 +104,7 @@ const ParentPage = () => {
           />
 
           {dataPoints.map((p, i) => (
-            <circle
-              key={i}
-              cx={p.x}
-              cy={p.y}
-              r="4"
-              fill="rgb(34, 197, 94)"
-            />
+            <circle key={i} cx={p.x} cy={p.y} r="4" fill="rgb(34, 197, 94)" />
           ))}
 
           {categories.map((cat, i) => {
@@ -117,7 +117,7 @@ const ParentPage = () => {
                 textAnchor="middle"
                 dominantBaseline="middle"
                 className="text-xs fill-cyan-500"
-                style={{ fontSize: '10px' }}
+                style={{ fontSize: "10px" }}
               >
                 {cat.label}
               </text>
@@ -159,30 +159,42 @@ const ParentPage = () => {
 
         {/* Kepribadian Section */}
         <div className="mb-6">
-          <h3 className="text-lg font-bold text-cyan-500 mb-3">Kepribadian Kamu</h3>
+          <h3 className="text-lg font-bold text-cyan-500 mb-3">
+            Kepribadian Kamu
+          </h3>
           <p className="text-sm text-gray-700 mb-4 text-justify leading-relaxed">
-            Data di bawah ini merupakan rekam jejak penggunaan aplikasi dari awal hingga saat ini dan dapat berubah kapanpun. Penilaian yang ditampilkan didasarkan pada keseluruhan aktivitas anak.
+            Data di bawah ini merupakan rekam jejak penggunaan aplikasi dari
+            awal hingga saat ini dan dapat berubah kapanpun. Penilaian yang
+            ditampilkan didasarkan pada keseluruhan aktivitas anak.
           </p>
 
           <div className="bg-white rounded-3xl p-6 shadow-lg border border-cyan-200">
-            <p className="text-center text-sm font-semibold text-cyan-500 mb-2">Keberanian</p>
+            <p className="text-center text-sm font-semibold text-cyan-500 mb-2">
+              Keberanian
+            </p>
             <RadarChart data={personality} />
           </div>
         </div>
 
         {/* Hobi dan Minat */}
         <div className="mb-6">
-          <h3 className="text-lg font-bold text-cyan-500 mb-3">Hobi dan Minat Kamu</h3>
+          <h3 className="text-lg font-bold text-cyan-500 mb-3">
+            Hobi dan Minat Kamu
+          </h3>
           <p className="text-sm text-gray-700 leading-relaxed text-justify">
-            {personality.hobiDanMinat || "Menggambar, bermain musik, dan menulis. kamu senang mengarang dan menciptakan dunia dari imaginasi kamu sendiri."}
+            {personality.hobiDanMinat ||
+              "Menggambar, bermain musik, dan menulis. kamu senang mengarang dan menciptakan dunia dari imaginasi kamu sendiri."}
           </p>
         </div>
 
         {/* Sifat dan Kepribadian */}
         <div className="mb-6">
-          <h3 className="text-lg font-bold text-cyan-500 mb-3">Sifat dan kepribadian</h3>
+          <h3 className="text-lg font-bold text-cyan-500 mb-3">
+            Sifat dan kepribadian
+          </h3>
           <p className="text-sm text-gray-700 leading-relaxed text-justify">
-            {personality.sifatDanKepribadian || "Kamu lebih nyaman dan bersemangat saat punya waktu untuk sendiri dan merenung, memiliki banyak ide unik, mandiri, dan sangat teliti dengan hasil kerjanya."}
+            {personality.sifatDanKepribadian ||
+              "Kamu lebih nyaman dan bersemangat saat punya waktu untuk sendiri dan merenung, memiliki banyak ide unik, mandiri, dan sangat teliti dengan hasil kerjanya."}
           </p>
         </div>
       </div>
@@ -193,10 +205,10 @@ const ParentPage = () => {
     <div
       className="min-h-screen p-6 max-w-md mx-auto"
       style={{
-        backgroundImage: 'url(/bg-main.png)',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat'
+        backgroundImage: "url(/bg-main.png)",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
       }}
     >
       {/* Profile Section */}
@@ -246,7 +258,9 @@ const ParentPage = () => {
               className="mb-1"
             />
             <p className="text-xs text-gray-500">Runtutan hari</p>
-            <p className="text-lg font-bold text-gray-700">{stats.streakCount}</p>
+            <p className="text-lg font-bold text-gray-700">
+              {stats.streakCount}
+            </p>
           </div>
         </div>
       </div>
@@ -255,7 +269,9 @@ const ParentPage = () => {
       <div className="mb-6">
         <div className="flex justify-between items-center mb-4">
           <h3 className="text-lg font-bold text-gray-700">Pencapaian</h3>
-          <button className="text-sm text-gray-400 hover:text-gray-600">Lihat detail</button>
+          <button className="text-sm text-gray-400 hover:text-gray-600">
+            Lihat detail
+          </button>
         </div>
         <div className="bg-white rounded-3xl p-6 shadow-lg border-2 border-cyan-300">
           <div className="grid grid-cols-3 gap-4">
@@ -286,7 +302,9 @@ const ParentPage = () => {
           </button>
         </div>
         <div className="bg-white rounded-3xl p-6 shadow-lg border-2 border-cyan-300">
-          <p className="text-center text-sm font-semibold text-cyan-500 mb-2">Keberanian</p>
+          <p className="text-center text-sm font-semibold text-cyan-500 mb-2">
+            Keberanian
+          </p>
           <RadarChart data={personality} />
         </div>
       </div>
