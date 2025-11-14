@@ -32,7 +32,7 @@ const Splash = () => {
       </div>
       
       {/* Loading Text */}
-      <p className="text-sm text-black/25">Loading... {progress}%</p>
+      {/* <p className="text-sm text-black/25">Loading... {progress}%</p> */}
     </div>
   );
 };
