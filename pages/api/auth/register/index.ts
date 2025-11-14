@@ -34,6 +34,10 @@ const uploadToCloudinary = async (filePath: string): Promise<string> => {
   }
 };
 
+const generateRandomPersonalityValue = (): number => {
+  return Math.floor(Math.random() * (94 - 31 + 1)) + 31;
+};
+
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   await mongoConnect();
 
@@ -91,12 +95,12 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
     await Personality.create({
       userId: newUser._id,
-      kreatifitas: 0,
-      keberanian: 0,
-      empati: 0,
-      kerjaSama: 0,
-      tanggungJawab: 0,
-      hobiDanMinat: "",
+      kreatifitas: generateRandomPersonalityValue(),
+      keberanian: generateRandomPersonalityValue(),
+      empati: generateRandomPersonalityValue(),
+      kerjaSama: generateRandomPersonalityValue(),
+      tanggungJawab: generateRandomPersonalityValue(),
+      hobiDanMinat: "Menggambar, bermain musik, dan menulis. kamu senang mengarang dan menciptakan dunia dari imajinasi kamu sendiri.",
     });
 
     const token = jwt.sign(
