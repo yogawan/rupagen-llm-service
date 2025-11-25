@@ -1,11 +1,12 @@
 {
-  "name": "mintrix-api-service",
+  "name": "rupagen-llm-service",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
-    "start": "next start"
+    "start": "next start",
+    "clean": "rm -rf .next node_modules package-lock.json"
   },
   "dependencies": {
     "@clerk/backend": "^2.19.0",
