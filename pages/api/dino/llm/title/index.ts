@@ -62,7 +62,7 @@ async function handler(req: AuthenticatedRequest, res: NextApiResponse) {
 
         // validasi dan fallback default
         if (typeof title !== "string" || !title.trim()) {
-          title = "Mulai percakapan dengan dino ...";
+          title = "Mulai percakapan dengan RupaGen ...";
         }
 
         const doc = await Title.create({
