@@ -92,20 +92,8 @@ async function handler(req: AuthenticatedRequest, res: NextApiResponse) {
             .json({ message: "Field 'content' wajib diisi" });
         }
 
-        // Ambil ringkasan profil dari API pertama
-        const profileRes = await fetch(
-          "https://mintrix.yogawanadityapratama.com/api/summarize",
-          {
-            headers: {
-              Authorization: req.headers.authorization || "",
-              "Content-Type": "application/json",
-            },
-          },
-        );
-        const profileData = await profileRes.json();
-        const systemContent = profileData.summary || "";
-
         // Panggil API Dino untuk dapatkan response AI
+        const systemContent = "";
         const assistantReply = await callDinoLLM(systemContent, content);
 
         // Buat pesan user & assistant
