@@ -21,7 +21,8 @@ function isValidObjectId(id: string) {
 }
 
 async function callDinoLLM(systemContent: string, userContent: string) {
-  const apiUrl = "https://dino.yogawanadityapratama.com/api/llm/dino/chat";
+  const apiUrl =
+    "https://core-rupagen-llm-service.vercel.app/api/llm/dino/chat";
 
   const body = {
     messages: [
