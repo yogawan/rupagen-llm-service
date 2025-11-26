@@ -7,7 +7,7 @@ const App = ({ Component, pageProps }: AppProps) => {
   return (
     <>
       <Head>
-        <title>Mintrix</title>
+        <title>RupaGen LLM Service</title>
         <link rel="icon" type="image/png" href="/favicon/icon.png" />
       </Head>
       <Component {...pageProps} />
