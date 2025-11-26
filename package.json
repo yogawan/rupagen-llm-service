@@ -6,11 +6,9 @@
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
     "start": "next start",
-    "clean": "rm -rf .next node_modules package-lock.json"
+    "clean": "rm -rf .next node_modules"
   },
   "dependencies": {
-    "@clerk/backend": "^2.19.0",
-    "@clerk/nextjs": "^6.34.0",
     "axios": "^1.13.2",
     "bcryptjs": "^3.0.2",
     "cloudinary": "^2.8.0",
